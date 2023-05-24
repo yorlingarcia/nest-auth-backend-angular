@@ -18,11 +18,15 @@ export class AuthService {
     try {
       //Encriptacion de la contrasenia
       const { password, ...userData } = createUserDto;
-      const newUSer = new this.userModel({
+      const newUser = new this.userModel({
         password: bcryptjs.hashSync(password, 10),
         ...userData,
       });
-      return await newUSer.save();
+      await newUser.save();
+
+      const { password: _, ...user } = newUser.toJSON();
+
+      return user;
     } catch (error) {
       console.log(error.code);
       if (error.code === 11000) {
