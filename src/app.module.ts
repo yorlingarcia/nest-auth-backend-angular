@@ -8,12 +8,8 @@ require('dotenv').config();
 const db = process.env.MONGO_URI;
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://localhost:27017'), AuthModule],
+  imports: [ConfigModule.forRoot(), MongooseModule.forRoot(db), AuthModule],
   controllers: [],
   providers: [],
 })
-export class AppModule {
-  constructor() {
-    console.log(db);
-  }
-}
+export class AppModule {}
