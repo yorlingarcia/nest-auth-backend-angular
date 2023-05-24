@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
@@ -9,6 +10,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import * as bcryptjs from 'bcryptjs';
+import { LoginDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -36,7 +38,14 @@ export class AuthService {
     }
   }
 
-  login() {}
+  async login(loginDto: LoginDto) {
+    const { email, password } = loginDto;
+    const user = await this.userModel.findOne({ email });
+    if (!user) {
+      throw new UnauthorizedException('Credenciales no validas - email');
+    }
+    return 'Todo Bien!';
+  }
 
   findAll() {
     return `This action returns all auth`;
