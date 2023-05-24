@@ -8,6 +8,7 @@ import { UpdateAuthDto } from './dto/update-auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
+import * as bcryptjs from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,12 @@ export class AuthService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     try {
-      const newUSer = new this.userModel(createUserDto);
+      //Encriptacion de la contrasenia
+      const { password, ...userData } = createUserDto;
+      const newUSer = new this.userModel({
+        password: bcryptjs.hashSync(password, 10),
+        ...userData,
+      });
       return await newUSer.save();
     } catch (error) {
       console.log(error.code);
