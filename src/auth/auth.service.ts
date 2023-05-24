@@ -36,6 +36,8 @@ export class AuthService {
     }
   }
 
+  login() {}
+
   findAll() {
     return `This action returns all auth`;
   }
