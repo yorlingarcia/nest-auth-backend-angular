@@ -44,7 +44,16 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException('Credenciales no validas - email');
     }
-    return 'Todo Bien!';
+
+    if (!bcryptjs.compareSync(password, user.password)) {
+      throw new UnauthorizedException('Credenciales no validas - password');
+    }
+
+    const { password: _, ...rest } = user.toJSON();
+    return {
+      user: rest,
+      token: 'ABC-123',
+    };
   }
 
   findAll() {
