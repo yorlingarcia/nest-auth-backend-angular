@@ -8,7 +8,13 @@ require('dotenv').config();
 const db = process.env.MONGO_URI;
 
 @Module({
-  imports: [ConfigModule.forRoot(), MongooseModule.forRoot(db), AuthModule],
+  imports: [
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(db, {
+      dbName: process.env.MONGO_DB_NAME,
+    }),
+    AuthModule,
+  ],
   controllers: [],
   providers: [],
 })
