@@ -4,15 +4,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('dotenv').config();
-const db = process.env.MONGO_URI;
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    MongooseModule.forRoot(db, {
-      dbName: process.env.MONGO_DB_NAME,
-    }),
+    MongooseModule.forRoot(process.env.MONGO_URI),
     AuthModule,
   ],
   controllers: [],
